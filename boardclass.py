@@ -18,14 +18,19 @@ class Board:
 
     def updateBoard(self, posX, posY):
         self.board[posY][posX] = "x"
-        
-    def addBoat(self, boat)
 
+    def returnGridSize(self):
+        print(self.gridSize)
+        return self.gridSize
+
+    def addBoat(self, boat):
+        if boat.returnRot() == True:
+            for i in range(boat.)
 
 d = Board("david", 5, 10)
 d.createBoard()
 d.updateBoard(1,1)
 d.printBoard()
-
+d.returnGridSize()
     
 
