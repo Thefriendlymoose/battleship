@@ -1,31 +1,28 @@
-#Battleship
-#Test
+import boardclass
+import boatclass
+import actionsclass
 
-class Board:
-    def __init__(self, player, boats, gridSize):
-        self.player = player
-        self.boats = boats
-        self.gridSize = gridSize
-        self.board = []
-        
-    def printBoard(self):
-        for elem in self.board:
-            print(elem)
-
-    def createBoard(self):
-        for x in range(0, self.gridSize):
-            self.board.append([0] * self.gridSize)
-
-    def updateBoard(self, posX, posY):
-        self.board[posY][posX] = "x"
-        
-    def addBoat(self, boat)
-
-
-d = Board("david", 5, 10)
+d = boardclass.Board("david", 5, 10, "boats")
+shot = boardclass.Board("david", 5, 10, "shots")
 d.createBoard()
-d.updateBoard(1,1)
+shot.createBoard()
+
+
+
+
+boat1 = boatclass.Boat(4, 1, 0, True)
+boat4 = boatclass.Boat(3, 0, 0, False)
+
+d.addBoat(boat1)
+d.printBoard()
+d.addBoat(boat4)
+
 d.printBoard()
 
-    
+shot1 = actionsclass.Actions(1,1,"david")
+shot2 = actionsclass.Actions(3,3,"david")
+shot1.updateShotBoard(d, shot)
+shot2.updateShotBoard(d, shot)
 
+d.printBoard()
+shot.printBoard()

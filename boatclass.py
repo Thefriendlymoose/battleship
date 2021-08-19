@@ -1,4 +1,4 @@
-#rotataion boolean: if true then boat vertical else horizontal
+#rotataion boolean: if true then boat vertical if false horizontal
 
 class Boat:
     def __init__(self, size, posX, posY, rot):
