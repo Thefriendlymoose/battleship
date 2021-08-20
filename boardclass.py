@@ -73,3 +73,12 @@ class Board:
             return True
         else:
             return False
+    
+    def checkIfLost(self):
+        for elem in self.board:
+            print(elem)
+            if "x" in elem:
+                return False
+        return True
+
+
