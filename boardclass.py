@@ -40,13 +40,13 @@ class Board:
             
     def checkBounds(self, boat):
         if boat.returnRot() == False:
-            if((self.returnGridSize() - 1 - boat.returnPosX()) < boat.returnSize()):
+            if((self.returnGridSize() - boat.returnPosX()) < boat.returnSize()):
                 print("horizontal out of bounds")
                 return False
             else:
                 return True
         else:
-            if((self.returnGridSize() - 1 - boat.returnPosY()) < boat.returnSize()):
+            if((self.returnGridSize() - boat.returnPosY()) < boat.returnSize()):
                 print("vertical out of bounds")
                 return False
             else:
@@ -76,9 +76,11 @@ class Board:
     
     def checkIfLost(self):
         for elem in self.board:
-            print(elem)
             if "x" in elem:
                 return False
         return True
+
+    def returnPlayer(self):
+        return self.player
 
 

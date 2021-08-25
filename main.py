@@ -1,6 +1,8 @@
 import boardclass
 import boatclass
 import actionsclass
+import os
+import time
 
 #####TEMP######
 def checkGamesizeInput(userInput):
@@ -16,19 +18,34 @@ def checkGamesizeInput(userInput):
 
 def checkGamesizeSize(userInput):
     for elem in gridSizes:
-        print(elem)
         if elem == userInput:
             return True
     return False
 
 def returnBoatNameAndSize(boatSize):
     switcher = {
-        2: "Patrol Boat: 2 Cells",
-        3: "Cruiser: 3 Cells",
-        4: "Battleship: 4 Cells",
-        5: "Carrier: 5 Cells",
+        2: "Patrol Boat, 2 Cells long",
+        3: "Cruiser, 3 Cells long",
+        4: "Battleship, 4 Cells long",
+        5: "Carrier, 5 Cells long",
     }
     return switcher.get(boatSize)
+
+def cls():
+    print ("\n" * 100)
+
+def countdown(t):
+    
+    while t:
+        mins, secs = divmod(t, 60)
+        timer = '{:02d}:{:02d}'.format(mins, secs)
+        print(timer, end="\n")
+        time.sleep(1)
+        t -= 1
+
+# now, to clear the screen
+
+
 
 #Variables
 
@@ -39,7 +56,7 @@ board2 = ""
 shotBoard1 = ""
 shotBoard2 = ""
 #4, 4, 3, 3, 2, 2
-boatSizes = [5]
+boatSizes = [2]
 gridSizes = [10, 20]
 gameSize = ""
 
@@ -82,11 +99,42 @@ shotBoards = [shotBoard1, shotBoard2]
 
 for elem in boatBoards:
     for i in range(len(boatSizes)):
-        placeBoat = input("%r Input Row, Col and Rot: " % returnBoatNameAndSize(boatSizes[i]))
-        userInputArray= placeBoat.split()
-        boatRow = int(userInputArray[0])
-        boatCol = int(userInputArray[1])
-        boatRot = userInputArray[2]
+##      place input checking mechanism here
+##      we need to check wether the DATA in placeBoat is in format "1 1 V"
+        elem.printBoard()
+        boatRow = input("Player: {} \nBoat: {} \nPlease enter row 0-9: ".format(elem.returnPlayer(),returnBoatNameAndSize(boatSizes[i])))
+        row = True
+        while row:
+            if checkGamesizeInput(boatRow):
+                boatRow = int(boatRow)
+                if boatRow < gameSize and boatRow >= 0:
+                    row = False
+                else:
+                    boatRow = input("numbers between 0 and {}".format(gameSize-1))
+            else:
+                boatRow = input("only numbers Row")
+
+        boatCol = input("Player: {} \nBoat: {} \nPlease enter column 0-9: ".format(elem.returnPlayer(),returnBoatNameAndSize(boatSizes[i])))
+        col = True
+        while col:
+            if checkGamesizeInput(boatCol):
+                boatCol = int(boatCol)
+                if boatCol<gameSize and boatCol >= 0:
+                    col = False
+                else:
+                    boatCol = input("numbers between 0 and {}".format(gameSize-1))
+            else:
+                boatCol = input("only numbers Col")
+
+        boatRot = input("Player: {} \nBoat: {} \nPlease enter rotation H for Horizontal or V for Vertical: ".format(elem.returnPlayer(),returnBoatNameAndSize(boatSizes[i])))
+        rot = True
+        while rot:
+            if boatRot == "V" or boatRot == "H":
+                rot = False
+            else:
+                boatRot = input("please give correct input")
+
+
         if boatRot == "V":
             boatRot = True
         else:
@@ -102,45 +150,101 @@ for elem in boatBoards:
                 placementPossible = False
             else:
                 print("Boat Placement failed")
-                placeBoat = input("%r Input Row, Col and Rot: " % returnBoatNameAndSize(boatSizes[i]))
-                userInputArray= placeBoat.split()
-                boatRow = int(userInputArray[0])
-                boatCol = int(userInputArray[1])
-                boatRot = userInputArray[2]
+
+                boatRow = input("row here")
+                row = True
+                while row:
+                    if checkGamesizeInput(boatRow):
+                        boatRow = int(boatRow)
+                        if boatRow < gameSize and boatRow >= 0:
+                            row = False
+                        else:
+                            boatRow = input("numbers between 0 and {}".format(gameSize-1))
+                    else:
+                        boatRow = input("only numbers Row")
+
+                boatCol = input("col here")
+                col = True
+                while col:
+                    if checkGamesizeInput(boatCol):
+                        boatCol = int(boatCol)
+                        if boatCol<gameSize and boatCol >= 0:
+                            col = False
+                        else:
+                            boatCol = input("numbers between 0 and {}".format(gameSize-1))
+                    else:
+                        boatCol = input("only numbers Col")
+
+                boatRot = input("rot here")
+                rot = True
+                while rot:
+                    if boatRot == "V" or boatRot == "H":
+                        rot = False
+                    else:
+                        boatRot = input("please give correct input")
                 if boatRot == "V":
                     boatRot = True
                 else:
                     boatRot = False
-                tempBoat = boatclass.Boat(boatSizes[i], boatCol, boatRow, boatRot) 
-        elem.printBoard()
+                tempBoat = boatclass.Boat(boatSizes[i], boatCol, boatRow, boatRot)
+
+    elem.printBoard()
+    countdown(3)
+    cls()
+    countdown(3)
                           
 gameOver = True
 
 while gameOver:
     for i in range(len(boatBoards)):
-        shot = input("Please input cell to shoot (format: Row Col 1 1): ")
-        shot = shot.split()
-        shotRow = int(shot[0])
-        shotCol = int(shot[1])
+##      place input checking mechanism here
+##      we need to check wether the data in shot is in format "1 1"
+        shotBoards[i].printBoard()
+        shotRow = input("row here")
+        row = True
+        while row:
+            if checkGamesizeInput(shotRow):
+                shotRow = int(shotRow)
+                if shotRow < gameSize:
+                   row = False
+                else:
+                    shotRow = input("numbers between 0 and {}".format(gameSize-1))
+            else:
+                shotRow = input("Please input a number between 0 and {}".format(gameSize-1))
+
+
+        shotCol = input("Input column here: ")
+        col = True
+        while col:
+            if checkGamesizeInput(shotCol):
+                shotCol = int(shotCol)
+                if shotCol < gameSize:
+                   col = False
+                else:
+                    shotCol = input("numbers between 0 and {}".format(gameSize-1))
+            else:
+                shotCol = ("Please input a number between 0 and {}".format(gameSize-1))       
+
         tempShot = actionsclass.Actions(shotCol, shotRow)
+        
         if i == 0:
             tempShot.updateShotBoard(boatBoards[i+1], shotBoards[i])
         else:
             tempShot.updateShotBoard(boatBoards[i-1], shotBoards[i])
 
-        print(boatBoards[i].checkIfLost())
+        if i == 0:
+            if boatBoards[i+1].checkIfLost():
+                print("{} wins the game!".format(boatBoards[i].returnPlayer()))
+                gameOver = False
+                break
+        else:
+            if boatBoards[i-1].checkIfLost():
+                print("{} wins the game!".format(boatBoards[i].returnPlayer()))
+                gameOver = False
+                break
 
-        if boatBoards[i].checkIfLost():
-            print("oops")
-            gameOver = False
-            
-        board1.printBoard()
-        shotBoard1.printBoard()
-        board2.printBoard()
-        shotBoard2.printBoard()
-    
-        
-    
-
-
-
+        boatBoards[i].printBoard()
+        shotBoards[i].printBoard()
+        countdown(3)
+        cls()
+        countdown(3)
